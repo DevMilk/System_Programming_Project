@@ -14,6 +14,7 @@ from .views import (
 
 app_name = 'core'
 
+#Url adresleri burada belirtiliyor, bir sayfa eklemek istediğimizde burada onun url adresini belirtiyoruz
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),

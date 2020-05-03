@@ -24,9 +24,9 @@ def products(request):
     context = {
         'items': Item.objects.all()
     }
-    return render(request, "products.html", context)
+    return render(request, "product.html", context)
 
-
+#Eğer formun en az bir alanı boşsa yanlış bir formdur. 
 def is_valid_form(values):
     valid = True
     for field in values:
