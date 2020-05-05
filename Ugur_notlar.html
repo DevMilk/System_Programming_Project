@@ -87,6 +87,14 @@ ____________________________________________________________________HTML DOSYALA
 		|________________________________|
 
 
+	6. Django Fonkiyonları
+		Sadece djangoya özel olarak, html için hazır fonkiyonlar vardır
+		__________________________________
+		| {% abc|add:22 %}               | 
+		|                                |
+		|________________________________|
+		Bunun yazıldığı yerde abc sayısındn 22 fazla bir sayı yazdırılacaktır. Slice, truncate, title'a dönüştürme gibi fonkiyonlar mevcuttur.
+		Tüm fonskiyonlar django'nun dökümantasyonunda mevcuttur. 
 		
 ____________________________________________________________________DIGER NOTLAR____________________________________________________________________
 
@@ -102,4 +110,3 @@ ____________________________________________________________________DIGER NOTLAR
 	2.1 Modellerin değişkenleri belirlendikten sonra admin panelinden objeler eklenebiliyor, peki kullanıcının dolduracağı formları nerede yazıyoruz?
 		a- forms.py'de yazıyoruz  	   
 		b- views.py'de formları import edip Context JSON'unun bir attribute'una parametre olarak veriyoruz, böylece .html'de o formlara referans verilebiliyor.
-		 
