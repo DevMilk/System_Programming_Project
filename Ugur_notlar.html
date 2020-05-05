@@ -86,8 +86,20 @@ ____________________________________________________________________HTML DOSYALA
 		| {% endif %}                    |
 		|________________________________|
 
+
 		
-		
+____________________________________________________________________DIGER NOTLAR____________________________________________________________________
 
-
-
+1. Veritabanı
+	1.1 Objelerin veritabanına nasıl erişiliyor? : ObjeIsmi.get(...) ile
+	1.2 Aynı obje birden fazla kullanıcıda olabilir, o kullanıcıya özel olanları nasıl anlıyor? : 
+		a- Önce models.py kısmında objeye user attribute'u ekleniyor. 
+		(a)Bu işlem user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL, blank=True, null=True) ile yapılıyor
+		b- Ardından da views.py kısmında da Order.objects.filter(user=request.user YA DA user = self.request.user) ile filtrelenip kullanıcıya özel olan kısmı döndürüyor
+	1.3 Mevcut Objenin özellikleri nasıl değiştirilebilir hale getiriliyor?
+		a- Objenin attribute'u değiştirildikten sonra order_item.save() yapılıp kaydediliyor
+2. Yapı Hakkında
+	2.1 Modellerin değişkenleri belirlendikten sonra admin panelinden objeler eklenebiliyor, peki kullanıcının dolduracağı formları nerede yazıyoruz?
+		a- forms.py'de yazıyoruz  	   
+		b- views.py'de formları import edip Context JSON'unun bir attribute'una parametre olarak veriyoruz, böylece .html'de o formlara referans verilebiliyor.
+		 
