@@ -15,6 +15,7 @@ import string
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+#CTRL+K+1-> Hepsini Foldlamak için 
 
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
@@ -65,6 +66,7 @@ class CheckoutView(View):
                 context.update(
                     {'default_billing_address': billing_address_qs[0]})
 
+            #Yüklediği context adlı json formatındaki veriyi, checkout.html'de {{ degisken_ismi}} yazarak gömebilir.        
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")

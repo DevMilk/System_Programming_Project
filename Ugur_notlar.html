@@ -1,0 +1,93 @@
+EDİT AYARLARI:
+hightlight için ALT+SPACE bas
+
+
+____________________________________________________________________NOTLAR______________________________________________________________________________________________________
+
+	Bir web sayfasındaki görünümler ve sayfaların oluşması için, sayfadaki fatura, adres gibi modeller models.py'ye kaydedilir,
+	daha sonra bu modeller views.py'de import edilir ve orada veri tipi olarak kullanılırlar. 
+
+	structfoo = {
+	                'abc': 10,
+	                'Modelfoo': BirModel(),
+	                'order': order,
+	                'dizi': [1,2,3,4]
+	            }
+
+	Veri tipi olarak kullanılabilmesi ve bir sayfada o verilere ulaşılabilmesi için, render(self.request,"foo.html",structfoo)
+	kullanılır. 
+	foo.html'de json formatında olan structfoo'nun belirli bir yerde kullanılması için foo.html dosyasındaki
+	bir yere {{ Modelfoo }} formatı ile değişkenler yerleştirilebilir.
+
+	Daha sonra da sayfa adlarının belirli bir düzende olması için views.py deki viewler urls.py'ye import edilir 
+
+	Yapılan modeller, django'nun admin panelinde o model tipindeki objelerin üretimi için bir ortam oluşturmuş olur.
+
+
+KOPYALA YAPISTIR
+|
+|
+|
+|
+|
+|
+|
+
+__________________________________
+
+____________________________________________________________________HTML DOSYALARI ÜZERİNDE YAPILAN ŞEYLER____________________________________________________________________
+
+	1. Bir sayfanın belirli bölümü hariç tüm yerlerini taslak olarak kullanmak/ referans etmek için:
+
+
+
+
+	Taslak Sayfaya:							Taslak kullanılacak olan sayfaya 
+	__________________________________	 	_________________________________
+	|referans edilecek sayfaya ekle...|		| {% extends "taslak.html" %}   |
+	|								  |		|{% block blockismi %}			|
+	|{%block blockismi %}			  | 	|   Bu sayfaya özel kısımlar... |
+	|								  |		|{% endblock blockismi %} 		|	
+	|{% endblock blockismi %}  		  |	    |								|
+	|referans edilecek sayfaya ekle...|		|								|
+	|_________________________________|     |_______________________________|
+
+
+	2. Bir sayfanın sadece belirli bölümüne taslağı koymak için
+
+	Taslak kullanılacak olan sayfaya 
+	_________________________________
+	|Bu sayfaya özel kısımlar...	|
+	|{% include "taslak.html"}		|
+	|Bu sayfaya özel kısımlar...	|
+	|_______________________________|
+
+	3. Render fonksiyonu ile veri verilmiş sayfada veriyi kullanmak için:
+
+	_______________________
+	| {{ degisken_ismi }} |
+	|_____________________|										
+
+	4. Render fonksiyonu ile veri verilmiş sayfada for döngüsü yapmak için:
+
+		Liste örneği:
+			_______________________________________________________________
+			|	<ul> 													  |	
+			|		{% for element in dizi %}                             |
+			|		<li> {{forloop.counter}}. eleman: {{element}} </li>   |
+			|		{% endfor %}                                          |
+			|	</ul>	                                                  |
+			|_____________________________________________________________|
+
+	5. IF
+
+		__________________________________
+		| {% if abc == 10 %}             | 
+		| {% endif %}                    |
+		|________________________________|
+
+		
+		
+
+
+
