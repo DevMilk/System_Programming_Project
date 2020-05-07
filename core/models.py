@@ -5,7 +5,7 @@ from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
 
-#CTRL+K -> Hepsini Foldlamak için 
+#CTRL+K+1 -> Hepsini Foldlamak için 
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
     ('SW', 'Sport wear'),
@@ -43,6 +43,7 @@ class Item(models.Model):
     slug = models.SlugField()
     description = models.TextField()
     image = models.ImageField()
+    additional_information = models.TextField()
 
     def __str__(self):
         return self.title
