@@ -48,6 +48,7 @@ class Migration(migrations.Migration):
                 ('slug', models.SlugField()),
                 ('description', models.TextField()),
                 ('image', models.ImageField(upload_to='')),
+                ('additional_information', models.TextField()),
             ],
         ),
         migrations.CreateModel(
