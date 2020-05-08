@@ -8,7 +8,7 @@ if __name__ == '__main__':
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
-            "Could not import Django. Are you sure it's installed and "
+            "Couldn't really import Django. Are you sure it's installed and "
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
