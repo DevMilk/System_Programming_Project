@@ -347,20 +347,22 @@ class PaymentView(View):
 
 class HomeView(ListView):
     def get(self,*args,**kwargs):
+        model = Item
+        paginate_by = 10
+        template_name = "home.html"
+        context = {
+                'object_list': Item.objects.all()
+        }
         try:
 
-            model = Item
-            paginate_by = 10
-            template_name = "home.html"
+
 
             categories = []    
             for item in list(CATEGORY_CHOICES):
                 _,a = item 
                 categories.append(a)
+            context["categories"]=categories        
 
-            context = {
-                'categories': categories
-            }
             return render(self.request,template_name,context)
         except ObjectDoesNotExist:
             messages.warning(self.request,"No category found!")
