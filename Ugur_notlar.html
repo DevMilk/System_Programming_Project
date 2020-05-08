@@ -34,6 +34,16 @@ ____________________________________________________________________NOTLAR______
  	- request.POST kodda Viewdaki sınıfların içinde çağıırılan Form sınıflarına parametre olarak verilip, dönüş olarak o form objesini alır
 	- Her formu kendimiz yapmak zorunda değiliz. Crispy forms ile html'de hazır form oluşturulabilir
 
+
+	- Bir model sınıfına yeni özellik eklemek istiyorum ve bu özelliğin veritabanında bir sütun olarak da bulunmasını istiyorum ne yapmalıyım?
+		1. Model sınıfına o değişkeni ekle ve bir field ile tanımla (price = models.FloatField())  
+		2. Migrations klasöründe ilgili py kodunda, veritabanı ile ilgili bilgiler ve ayarlar bulunuyor, o değişkeni sütun olarak oraya ekle
+		3. Bunlar olduktan sonra sayfayı yenilersen hata verir çünkü veritabanını güncellemek için python manage.py migrate kodunu çalıştırman gerek
+		4. Güncellemeyi onaylamak için python manage.py makemigrations komutunu çalıştır ve bitti.
+
+
+
+
 	1. Veritabanı
 		1.1 Objelerin veritabanına nasıl erişiliyor? : ObjeIsmi.get(...) ile
 		1.2 Aynı obje birden fazla kullanıcıda olabilir, o kullanıcıya özel olanları nasıl anlıyor? : 
