@@ -7,21 +7,25 @@ from django_countries.fields import CountryField
 
 #CTRL+K+1 -> Hepsini Foldlamak için 
 CATEGORY_CHOICES = (
-    ('S', 'Shirt'),
-    ('SW', 'Sport wear'),
-    ('OW', 'Outwear')
+    ('Ç', 'Çamaşır Makinesi'),
+    ('B', 'Buzdolabı'),
+    ('BM', 'Bulaşık Makinesi'),
+    ('O', 'Ocaklar'),
+    ('F', 'Fırınlar')
 )
 
 LABEL_CHOICES = (
     ('P', 'primary'),
     ('S', 'secondary'),
     ('D', 'danger')
+
 )
 
 ADDRESS_CHOICES = (
     ('B', 'Billing'),
     ('S', 'Shipping'),
 )
+
 
 
 class UserProfile(models.Model):

@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
 from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
-from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile
+from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile, CATEGORY_CHOICES
 
 import random
 import string
@@ -346,10 +346,24 @@ class PaymentView(View):
 
 
 class HomeView(ListView):
-    model = Item
-    paginate_by = 10
-    template_name = "home.html"
+    def get(self,*args,**kwargs):
+        try:
 
+            model = Item
+            paginate_by = 10
+            template_name = "home.html"
+
+            categories = []    
+            for item in list(CATEGORY_CHOICES):
+                _,a = item 
+                categories.append(a)
+
+            context = {
+                'categories': categories
+            }
+            return render(self.request,template_name,context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request,"No category found!")
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
