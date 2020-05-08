@@ -353,15 +353,16 @@ class HomeView(ListView):
         context = {
                 'object_list': Item.objects.all()
         }
+        for item in list(CATEGORY_CHOICES):
+            _,a = item 
+            categories.append(a)
+            categories = []    
+            context["categories"]=categories 
         try:
 
 
 
-            categories = []    
-            for item in list(CATEGORY_CHOICES):
-                _,a = item 
-                categories.append(a)
-            context["categories"]=categories        
+       
 
             return render(self.request,template_name,context)
         except ObjectDoesNotExist:
