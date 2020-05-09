@@ -17,6 +17,7 @@ app_name = 'core'
 #Url adresleri burada belirtiliyor, bir sayfa eklemek istediğimizde burada onun url adresini belirtiyoruz
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('category=<str:slug>/', HomeView.as_view(), name='filtered'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),
