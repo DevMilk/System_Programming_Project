@@ -21,14 +21,23 @@
 
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">All
+            {% if request.resolver_match.kwargs.slug == None %}
+              <li class="nav-item active">
+            {% else %}
+              <li class="nav-item">
+            {% endif %}
+              <a class="nav-link" href="/#">All
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            {% for category in categories %}
-            <li class="nav-item">
-              <a class="nav-link" href="#">{{category}}</a>
+            {% for category in Categories %}
+            {% if request.resolver_match.kwargs.slug == category.categorySlug %}
+                  <li class="nav-item active">
+            {% else %}
+                  <li class="nav-item ">
+            {% endif %}
+            
+              <a class="nav-link" href="/category={{category.categorySlug}}">{{category.categoryName}}</a>
             </li>
             {% endfor %}
           </ul>

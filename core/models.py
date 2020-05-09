@@ -7,7 +7,7 @@ from django_countries.fields import CountryField
 
 #CTRL+K+1 -> Hepsini Foldlamak için 
 CATEGORY_CHOICES = (
-    ('Ç', 'Çamaşır Makinesi'),
+    ('CM', 'Çamaşır Makinesi'),
     ('B', 'Buzdolabı'),
     ('BM', 'Bulaşık Makinesi'),
     ('O', 'Ocaklar'),
@@ -66,7 +66,7 @@ class Item(models.Model):
         return reverse("core:remove-from-cart", kwargs={
             'slug': self.slug
         })
-
+        
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

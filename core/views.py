@@ -353,15 +353,23 @@ class HomeView(ListView):
         context = {
                 'object_list': Item.objects.all()
         }
-        categories = []    
+        Categories = []
         for item in list(CATEGORY_CHOICES):
-            _,a = item 
-            categories.append(a)
-            context["categories"]=categories 
+            slug,a = item 
+            Categories.append({"categoryName": a, "categorySlug":slug})
+        
+        context["Categories"]=Categories
         try:
             return render(self.request,template_name,context)
         except ObjectDoesNotExist:
             messages.warning(self.request,"No category found!")
+    def get_queryset(self):
+        slug = self.kwargs.get('slug')
+        categoryName = ""
+        for i in range(0,len(CATEGORY_CHOICES)): 
+            if CATEGORY_CHOICES[i][0]==slug:
+                categoryName = CATEGORY_CHOICES[i][1]        
+        return Item.objects.filter(category=categoryName)
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
