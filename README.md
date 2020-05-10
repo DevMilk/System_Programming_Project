@@ -2,7 +2,7 @@
 
 Bu proje Kamsamında Django ile e-ticaret sitesi yapılmıştır.
 
-[alt text](https://https://github.com/DevMilk/System_Programming_Project/edit/master/site.png "Logo")
+[alt text](https://github.com/DevMilk/System_Programming_Project/edit/master/site.png "Logo")
 
 [Siteye erişim sağlamak için Tıklayınız.](https://www............com)
 
