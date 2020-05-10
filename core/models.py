@@ -7,11 +7,11 @@ from django_countries.fields import CountryField
 
 #CTRL+K+1 -> Hepsini Foldlamak için 
 CATEGORY_CHOICES = (
-    ('CM', 'Çamaşır Makinesi'),
-    ('B', 'Buzdolabı'),
-    ('BM', 'Bulaşık Makinesi'),
-    ('O', 'Ocaklar'),
-    ('F', 'Fırınlar')
+    ('CM', 'Washing Machine'),
+    ('B', 'Refrigerator'),
+    ('BM', 'Dishwasher'),
+    ('O', 'Furnace'),
+    ('F', 'Oven')
 )
 
 LABEL_CHOICES = (
