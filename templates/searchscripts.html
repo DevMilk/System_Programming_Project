@@ -1,0 +1,25 @@
+<script type="text/javascript">
+        function myFunction() {
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('myInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("full");
+            li = ul.getElementsByTagName('ul');
+            // Loop through all list items, and hide those who don't match the search query
+            console.log(li)
+            for (i = 0; i < li[0].getElementsByTagName("li").length; i++) {
+
+              a = li[0].getElementsByTagName("li")[i];
+              console.log("a: ",a,"id= ",a.id)
+              txtValue = a.id;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a.style.display = "";
+              } else {
+                a.style.display = "none";
+              }
+            }
+        }
+
+
+      </script>

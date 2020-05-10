@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
-from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
+from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm,ItemFilterForm
 from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile, CATEGORY_CHOICES
 
 import random
@@ -344,32 +344,41 @@ class PaymentView(View):
         messages.warning(self.request, "Invalid data received")
         return redirect("/payment/stripe/")
 
+def getDefaultContext():
+    context = {
+                'object_list': Item.objects.all()
+        }
+    Categories = []
+    for item in list(CATEGORY_CHOICES):
+        slug,a = item 
+        Categories.append({"categoryName": a, "categorySlug":slug})
+        
+    context["Categories"]=Categories
+    return context
 
 class HomeView(ListView):
     def get(self,*args,**kwargs):
         model = Item
         paginate_by = 10
         template_name = "home.html"
-        context = {
-                'object_list': Item.objects.all()
-        }
-        Categories = []
-        for item in list(CATEGORY_CHOICES):
-            slug,a = item 
-            Categories.append({"categoryName": a, "categorySlug":slug})
-        
-        context["Categories"]=Categories
+        context = getDefaultContext()
         try:
             return render(self.request,template_name,context)
         except ObjectDoesNotExist:
             messages.warning(self.request,"No category found!")
-    def get_queryset(self):
-        slug = self.kwargs.get('slug')
-        categoryName = ""
-        for i in range(0,len(CATEGORY_CHOICES)): 
-            if CATEGORY_CHOICES[i][0]==slug:
-                categoryName = CATEGORY_CHOICES[i][1]        
-        return Item.objects.filter(category=categoryName)
+
+class CategoryFilterView(View):
+    def get(self,*args,**kwargs):
+        model = Item
+        paginate_by = 10
+        template_name = "home.html"
+        context = getDefaultContext()
+        context["object_list"] = Item.objects.filter(category = self.kwargs.get("slug"))  
+        try:
+            return render(self.request,template_name,context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request,"No category found!")
+
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):

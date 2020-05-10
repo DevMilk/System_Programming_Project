@@ -43,9 +43,10 @@
           </ul>
           <!-- Links -->
 
-          <form class="form-inline">
+          <form class="form-inline" method = "GET">
+
             <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+              <input class="form-control mr-sm-2" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" aria-label="Search">
             </div>
           </form>
         </div>
@@ -53,14 +54,17 @@
 
       </nav>
       <!--/.Navbar-->
+     
+
+
 
       <!--Section: Products v.3-->
-      <section class="text-center mb-4">
+      <section class="text-center mb-4" id="full">
 
-        <div class="row wow fadeIn">
+        <ul class="row wow fadeIn" id = "full2">
 
           {% for item in object_list %}
-          <div class="col-lg-3 col-md-6 mb-4">
+          <li class="col-lg-3 col-md-6 mb-4" id="{{item.title}}" style="">
 
             <div class="card">
 
@@ -98,12 +102,14 @@
 
             </div>
 
-          </div>
+          </li>
           {% endfor %}
-        </div>
+        </ul>
 
       </section>
       <!--Section: Products v.3-->
+{% include "searchscripts.html" %}
+
 
       <!--Pagination-->
 
@@ -140,7 +146,6 @@
 
     </div>
   </main>
-
 {% endblock content %}
 
 
