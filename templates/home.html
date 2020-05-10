@@ -127,14 +127,11 @@
                 <a href="{{ item.get_absolute_url }}" class="card-body__title">{{ item.title }}</a>
 
                 <h4 class="card-body__bottom" >
-                  <span id = "price">
-                      $
-                      {% if item.discount_price %}
+                  <span id = "price" >${% if item.discount_price %}
                       {{ item.discount_price }}
                       {% else %}
                       {{ item.price }}
-                      {% endif %}
-                  </span>
+                      {% endif %}</span>
 
                 <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
                 </h4>
