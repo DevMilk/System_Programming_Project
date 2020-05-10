@@ -36,7 +36,7 @@
             {% else %}
                   <li class="nav-item ">
             {% endif %}
-            
+
               <a class="nav-link" href="/category={{category.categorySlug}}">{{category.categoryName}}</a>
             </li>
             {% endfor %}
@@ -65,31 +65,31 @@
 
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
-            
-         
-            
+
+
+
                   <li class="nav-item ">
-            
-            
-              <a class="nav-link waves-effect waves-light" >Minimum Price:             
+
+
+              <a class="nav-link waves-effect waves-light" >Minimum Price:
                 <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" id="PriceMin" onkeyup="FilterByPrice()" placeholder="Min" aria-label="Search">
+              <input class="form-control mr-sm-2" type="number" id="PriceMin" onkeyup="FilterByPrice()" placeholder="Min" aria-label="Search">
             </div>
 
           </a>
             </li>
-            
-            
+
+
                   <li class="nav-item ">
-            
-            
+
+
               <a class="nav-link waves-effect waves-light" >Maximum Price: <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" id="PriceMax" onkeyup="FilterByPrice()" placeholder="Max" aria-label="Search">
+              <input class="form-control mr-sm-2" type="number" id="PriceMax" onkeyup="FilterByPrice()" placeholder="Max" aria-label="Search">
             </div></a>
             </li>
-            
+
             </li>
-            
+
           </ul>
           <!-- Links -->
 
@@ -105,10 +105,10 @@
       <!--Section: Products v.3-->
       <section class="text-center mb-4" id="full">
 
-        <ul class="row wow fadeIn" id = "full2">
+        <div class="row wow fadeIn" id = "full2">
 
           {% for item in object_list %}
-          <li class="col-lg-3 col-md-6 mb-4" id="{{item.title}}" style="">
+          <div class="col-lg-3 col-md-6 mb-4" id="{{item.title}}" style="">
 
             <div class="card">
 
@@ -121,34 +121,28 @@
               </div>
 
               <div class="card-body text-center">
-                <a href="" class="grey-text">
-                  <h5>{{ item.get_category_display }}</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.title }}
-                      <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
-                    </a>
-                  </strong>
-                </h5>
+                <span class="card-body__category ">
+                  {{ item.get_category_display }}
+                </span>
+                <a href="{{ item.get_absolute_url }}" class="card-body__title">{{ item.title }}</a>
 
-                <h4 class="font-weight-bold blue-text">
-                  <strong id = "price">$
-                  {% if item.discount_price %}
-                  {{ item.discount_price }}
-                  {% else %}
-                  {{ item.price }}
-                  {% endif %}
-                  </strong>
+                <h4 class="card-body__bottom" >
+                  <span id = "price" >${% if item.discount_price %}
+                      {{ item.discount_price }}
+                      {% else %}
+                      {{ item.price }}
+                      {% endif %}</span>
+
+                <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
                 </h4>
 
               </div>
 
             </div>
 
-          </li>
+          </div>
           {% endfor %}
-        </ul>
+        </div>
 
       </section>
       <!--Section: Products v.3-->
