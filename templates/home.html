@@ -126,8 +126,8 @@
                 </span>
                 <a href="{{ item.get_absolute_url }}" class="card-body__title">{{ item.title }}</a>
 
-                <h4 class="card-body__bottom">
-                  <span>
+                <h4 class="card-body__bottom" >
+                  <span id = "price">
                       $
                       {% if item.discount_price %}
                       {{ item.discount_price }}
