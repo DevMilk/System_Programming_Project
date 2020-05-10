@@ -4,9 +4,9 @@
   <div class="container">
 
     <!-- Brand -->
-    <a class="navbar-brand waves-effect" href="/">
-      <img src="https://www.kindpng.com/picc/m/69-691752_logo-icon-information-technology-clipart-png-download-icon.png" alt="Image" height="36" width="42"   >
-      <strong class="blue-text">Stardust Technologies </strong>
+    <a class="navbar-brand" href="/">
+      <img src="https://www.kindpng.com/picc/m/69-691752_logo-icon-information-technology-clipart-png-download-icon.png" alt="Image" height="36" width="36">
+      <strong class="blue-text">Stardust Tech</strong>
     </a>
 
     <!-- Collapse -->
@@ -19,20 +19,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <!-- Left -->
-      <ul class="navbar-nav mr-auto">
-        {% comment %} <li class="nav-item active">
-          <a class="nav-link waves-effect" href="/">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link waves-effect" href="/checkout">
-            Checkout</a>
-        </li> {% endcomment %}
-      </ul>
+     <ul class="navbar-nav mr-auto">
+            {% for category in Categories %}
+            {% if request.resolver_match.kwargs.slug == category.categorySlug %}
+                  <li class="nav-item active">
+            {% else %}
+                  <li class="nav-item ">
+            {% endif %}
+
+              <a class="nav-link" href="/category={{category.categorySlug}}">{{category.categoryName}}</a>
+            </li>
+            {% endfor %}
+          </ul>
 
       <!-- Right -->
       <ul class="navbar-nav nav-flex-icons">
+       <form class="form-inline" method = "GET">
+            <div class="md-form my-0">
+              <input class="form-control mr-sm-2" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" aria-label="Search">
+            </div>
+          </form>
         {% if request.user.is_authenticated %}
         <li class="nav-item">
           <a href="{% url 'core:order-summary' %}" class="nav-link waves-effect">
@@ -59,6 +65,7 @@
         </li>
         {% endif %}
       </ul>
+
     </div>
 
   </div>
