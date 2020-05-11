@@ -168,27 +168,31 @@
         <ul class="pagination pg-blue">
 
           {% if page_obj.has_previous %}
-          <li class="page-item">
-            <a class="page-link" href="/?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
+          <form method="GET" class="page-item">
+                        {%include "all.html" %}
+
+            <input type="hidden" name="page" class="page-link" value="{{ page_obj.previous_page_number }}" aria-label="Previous">
+            <input type="submit" value="&laquo;" class="page-link" aria-label="Previous">
               <span class="sr-only">Previous</span>
-            </a>
-          </li>
+            </form>
           {% endif %}
 
-          <li class="page-item active">
-            <a class="page-link" href="/?page={{ page_obj.number }}">{{ page_obj.number }}
+          <form method="GET" class="page-item active">
+                        {%include "all.html" %}
+
+            <input name="page" type = "hidden" value = "{{page_obj.number}}"> 
+            <input type = "submit" class="page-link" value = "{{page_obj.number}}">
               <span class="sr-only">(current)</span>
-            </a>
-          </li>
+            </form>
 
           {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="./?page={{ page_obj.next_page_number }}" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
+          <form method="GET" class="page-item">
+            {%include "all.html" %}
+            <input name="page" type = "hidden" value = "{{page_obj.next_page_number}}"> 
+            <input type="submit" value="&raquo;" class="page-link" aria-label="Next">
+          </form>
               <span class="sr-only">Next</span>
-            </a>
-          </li>
+            
           {% endif %}
         </ul>
       </nav>
