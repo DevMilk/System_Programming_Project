@@ -10,7 +10,6 @@ INSTALLED_APPS += [
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 # DEBUG TOOLBAR SETTINGS
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
