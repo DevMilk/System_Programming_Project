@@ -14,6 +14,7 @@ import math
 import random
 import string
 import stripe
+import simplejson as JSON
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 #CTRL+K+1-> Hepsini Foldlamak için 

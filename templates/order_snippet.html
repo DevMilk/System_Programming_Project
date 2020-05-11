@@ -1,3 +1,10 @@
+{% include "JsonDataCapture.html" %}
+
+<div class="stripe-form-row mb-3">
+                    <button id="stripeBtn" onclick = "bill(data)" class="btn-info BillButton">Get Bill as JSON</button>
+                    <button id="stripeBtn" class="mt-3" onclick = "print()" class="btn-info BillButton">Print Order</button>
+
+</div>
 <div class="col-md-12 mb-4">
     <h4 class="d-flex justify-content-between align-items-center mb-3">
     <span class="text-muted">Your cart</span>
@@ -5,6 +12,13 @@
     </h4>
     <ul class="list-group mb-3 z-depth-1">
     {% for order_item in order.items.all %}
+
+    <script type="text/javascript">
+        data["title"].push('{{ order_item.item.title}}');
+        data["quantities"].push('{{order_item.quantity}}');
+        data["finalPrice"].push( '{{ order_item.get_final_price }}');
+    </script>
+
     <li class="list-group-item d-flex justify-content-between lh-condensed">
         <div>
         <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.item.title}}</h6>
