@@ -359,6 +359,7 @@ def getDefaultContext():
     return context
 def get_queryset(request):
     print("KWAARGS : ", request.GET.get("category"))
+
     kwargs = request.GET
     queryset = Item.objects.all()
     search   = kwargs.get("title")        
@@ -366,6 +367,10 @@ def get_queryset(request):
     print(categorySlug)
     priceMin = kwargs.get("priceMin")
     priceMax = kwargs.get("priceMax")
+    try:
+        orderType = int(kwargs.get("orderType"))
+    except(TypeError):
+        orderType = 0    
 
     if(search):
         queryset = queryset.filter(title__icontains=search)
@@ -376,8 +381,21 @@ def get_queryset(request):
         queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__gte=priceMin),price__gte=priceMin)
     if(priceMax):
         queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__lte=priceMax),price__lte= priceMax ) 
-           
-    return queryset.order_by("title") 
+    
+    order = "title"
+    try:
+        if(orderType==1):
+            order = "-title"
+        elif(orderType==2):
+            order = "-price"
+        elif(orderType==3):
+            order = "price"
+        else:
+            order = "title"    
+    except:
+        pass           
+
+    return queryset.order_by(order) 
 
 class HomeView(ListView):
     def get(self,*args,**kwargs):
