@@ -367,7 +367,6 @@ def get_queryset(request):
     priceMin = kwargs.get("priceMin")
     priceMax = kwargs.get("priceMax")
 
-
     if(search):
         queryset = queryset.filter(title__icontains=search)
     if(categorySlug):
@@ -378,7 +377,7 @@ def get_queryset(request):
     if(priceMax):
         queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__lte=priceMax),price__lte= priceMax ) 
            
-    return queryset 
+    return queryset.order_by("title") 
 
 class HomeView(ListView):
     def get(self,*args,**kwargs):
@@ -555,7 +554,7 @@ class AddCouponView(View):
                 order.save()
                 messages.success(self.request, "Successfully added coupon")
                 return redirect("core:checkout")
-            except ObjectDoesNotExist:
+            except:
                 messages.info(self.request, "You do not have an active order")
                 return redirect("core:checkout")
 

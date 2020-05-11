@@ -49,7 +49,7 @@
             <div class="md-form my-0">
               <form action="{% url 'core:home' %}" method="GET" >
                 <input name = "category" value = "{{request.GET.category}}" type="hidden">
-                <input name="title" type="text" placeholder="search" class="form-control mr-sm-2" placeholder="Search" aria-label = "Search">
+                <input name="title" type="text" placeholder="search" onkeyup = "DynamicSearch()" class="form-control mr-sm-2" placeholder="Search" aria-label = "Search">
               </form>
             </div>
         </div>
@@ -61,43 +61,52 @@
         <span class="navbar-brand">Filters:</span>
 
         <!-- Collapse button -->
-        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#filterNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="basicExampleNav">
+        <div class="collapse navbar-collapse" id="filterNav">
 
           <!-- Links -->
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav mr-auto h5">
 
 
 
                   <li class="nav-item ">
 
 
-              <a class="nav-link waves-effect waves-light ml-5" >Price:
+              <a class="nav-link waves-effect waves-light ml-5 badge" >Price:
                 <div class="md-form my-2 ">
                   
                   <form action="{% url 'core:home' %}" method="GET" >
                       <input name = "category" value = "{{request.GET.category}}" type="hidden">
-                      <input  name="priceMax" type="number" class="form-control mr-sm-2" placeholder="Max" 
+                      <input  name="priceMax" id="priceMax" type="number" onkeyup="DynamicPrice()" class="form-control mr-sm-2" placeholder="Max" 
                       aria-label = "Search">
-                      <input name="priceMin" type="number"  class="form-control mr-sm-2" placeholder="Min" 
+                      <input name="priceMin" type="number" id="priceMin" onkeyup="DynamicPrice()" class="form-control mr-sm-2" placeholder="Min" 
                       aria-label = "Search">
                 
-                      <input type="submit" value="submit">
+                      <input type="submit" value="filter" id ="submitPrice" class="btn btn-info">
                   </form>
 
                 </div>
-
+      
           </a>
+
             </li>
 
 
                   <li class="nav-item ">
 
-          
+                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5">Dynamic Filtering
+
+<div class="custom-control custom-checkbox">
+    <input type="checkbox" class="Dynamic custom-control-input" id="defaultUnchecked">
+    <label class="custom-control-label mt-3 mb-3" for="defaultUnchecked">Filter Current Page Dynamically
+    </label>
+</div>
+
+</a>
             </li>
 
             </li>

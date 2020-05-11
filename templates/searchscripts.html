@@ -1,8 +1,9 @@
 <script type="text/javascript">
 
-        function myFunction() {
+        function DynamicSearch() {
             // Declare variables
-            
+        if($(".Dynamic").is(':checked')){
+
             var input, filter, ul, li, a, i, txtValue;
             input = $("#myInput");
             filter = input.val().toUpperCase();
@@ -20,13 +21,19 @@
                 a.style.display = "none";
               }
             }
+
+          }
         }
 
-        function FilterByPrice() {
+        function DynamicPrice() {
+          console.log($("#Dynamic").is(':checked'))
+          if($(".Dynamic").is(':checked')){
+
+            $("#submitPrice")[0].style.display = "none";
             // Declare variables
             var input, filter, ul, li, a, i, txtValue;
-            min = parseFloat($("#PriceMin").val());
-            max = parseFloat($("#PriceMax").val());
+            min = parseFloat($("#priceMin").val());
+            max = parseFloat($("#priceMax").val());
 
             if(isNaN(max)){
               max = 0;
@@ -38,18 +45,25 @@
             li = $("div",ul);
             // Loop through all list items, and hide those who don't match the search query
             li =$(".col-lg-3",li[0]);
+            console.log(max, min);
             for (i = 0; i < li.length; i++) {
 
               a = li[i];
               price= $("#price",a)[0].innerText.slice(1);
               price = parseFloat(price);
-             if (price >= min && ( max==0 || price < max )) {
+             if (price >= min && ( max==0 || price <= max )) {
                 a.style.display = "";
               } else {
                 a.style.display = "none";
               }
               
             }
+          }
+          else{
+             console.log($("#submitPrice"))
+             $("#submitPrice")[0].style.display = "";
+
+          }
         }
 
       </script>
