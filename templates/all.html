@@ -1,4 +1,15 @@
-<input name = "category" value = "{{request.GET.category}}" type="hidden">
-<input name = "search" value = "{{request.GET.search}}" type="hidden">
-<input name = "priceMin" value = "{{request.GET.priceMin}}" type="hidden">
-<input name = "priceMax" value = "{{request.GET.priceMax}}" type="hidden">
+{% if request.GET.category != None and request.GET.category != "" %}
+		<input name = "category" value = "{{request.GET.category}}" type="hidden">
+{%endif%}
+
+{% if request.GET.title != None and request.GET.title != "" %}
+		<input name = "title" value = "{{request.GET.title}}" type="hidden">
+{%endif%}
+
+{% if request.GET.priceMin != None and request.GET.priceMin != "" %}
+		<input name = "priceMin" value = "{{request.GET.priceMin}}" type="hidden">
+{%endif%}
+
+{% if request.GET.priceMax != None and request.GET.priceMax != "" %}
+		<input name = "priceMax" value = "{{request.GET.priceMax}}" type="hidden">
+{%endif%}
