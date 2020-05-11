@@ -74,42 +74,66 @@
         <div class="collapse navbar-collapse" id="filterNav">
 
           <!-- Links -->
-          <div class="row align-content-between">
-            <!-- Price Filter -->
-            <div class="col">
-              <h6>Price:</h6>
-              <div class="md-form my-2 ">
-                <form action="{% url 'core:home' %}" method="GET">
-                  {% if request.GET.category != None and request.GET.category != "" %}
+ <ul class="navbar-nav mr-auto h5">
 
-                    <input name="category" value="{{ request.GET.category }}" type="hidden">
-                  {% endif %}
-                  <input name="priceMax" id="priceMax" type="number" onkeyup="DynamicPrice()"
-                         class="form-control mr-sm-2" placeholder="Max"
-                         aria-label="Search">
-                  <input name="priceMin" type="number" id="priceMin" onkeyup="DynamicPrice()"
-                         class="form-control mr-sm-2" placeholder="Min"
-                         aria-label="Search">
-                  <input type="submit" value="filter" id="submitPrice" class="btn btn-info">
-                </form>
-              </div>
-            </div>
-            <!-- Order Menu  -->
-            <div class="col">
-              <h6>Dynamic Filtering</h6>
-              {% include "sortMenu.html" %}
-            </div>
-            <div class="col">
 
-              <!-- Dynamic Checkbox  -->
-              <h6>Sort</h6>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="Dynamic custom-control-input" id="defaultUnchecked">
-                <label class="custom-control-label mt-3 mb-3" for="defaultUnchecked">Filter Current Page Dynamically
-                </label>
-              </div>
-            </div>
-          </div>
+                <!-- Price Filter -->
+                  <li class="nav-item mt-3">
+
+
+              <a class="nav-link waves-effect waves-light ml-5 badge" >Price:
+                <div class="md-form my-2 ">
+                  
+                  <form action="{% url 'core:home' %}" method="GET" >
+                    {% if request.GET.category != None and request.GET.category != "" %}
+
+                      <input name = "category" value = "{{request.GET.category}}" type="hidden">
+                    {% endif %}  
+                      <input  name="priceMax" id="priceMax" type="number" onkeyup="DynamicPrice()" class="form-control mr-sm-2" placeholder="Max" 
+                      aria-label = "Search">
+                      <input name="priceMin" type="number" id="priceMin" onkeyup="DynamicPrice()" class="form-control mr-sm-2" placeholder="Min" 
+                      aria-label = "Search">
+                
+                      <input type="submit" value="filter" id ="submitPrice" class="btn btn-info">
+                  </form>
+
+                </div>
+      
+                </a>
+
+                  </li>
+
+
+                <!-- Order Menu  -->
+
+                  <li class="nav-item mt-3">
+
+                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5">Dynamic Filtering
+
+                        {% include "sortMenu.html" %}
+                      </a>
+                  </li>
+                  <li class="nav-item mt-3">
+
+                <!-- Dynamic Checkbox  -->
+
+                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5">Sort
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="Dynamic custom-control-input" id="defaultUnchecked">
+                            <label class="custom-control-label mt-3 mb-3" for="defaultUnchecked">Filter Current Page Dynamically
+                            </label>
+                        </div>
+                      </a>
+                  </li>
+
+
+
+
+
+            </li>
+
+          </ul>
           <!-- Links -->
 
         </div>
