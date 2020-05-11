@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, re_path
+import re
 from .views import (
     ItemDetailView,
     CheckoutView,
@@ -17,8 +18,12 @@ app_name = 'core'
 
 #Url adresleri burada belirtiliyor, bir sayfa eklemek istediğimizde burada onun url adresini belirtiyoruz
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
-    path('category=<str:slug>/', CategoryFilterView.as_view(), name='filtered'),
+    re_path('', HomeView.as_view(), name='base'),
+    re_path(r'^home(?:/(?P<category>[a-zA-Z]+)/)?(?:/(?P<title>[a-zA-Z]+)/)?(?:/(?P<page>\d+)/)?(?:/(?P<priceMin>\d+)/)?(?:/(?P<priceMax>\d+)/)?/$', 
+        HomeView.as_view(),name='home'),
+    # path('category=<str:category>&title=<str:title>/', HomeView.as_view(), name='home'),
+
+   # path('category=<str:slug>/', CategoryFilterView.as_view(), name='filtered'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),

@@ -27,6 +27,7 @@
             var input, filter, ul, li, a, i, txtValue;
             min = parseFloat($("#PriceMin").val());
             max = parseFloat($("#PriceMax").val());
+
             if(isNaN(max)){
               max = 0;
             }
@@ -41,10 +42,8 @@
 
               a = li[i];
               price= $("#price",a)[0].innerText.slice(1);
-              console.log("innerSliced: ",price, " Realprice: ",parseFloat(price));
               price = parseFloat(price);
-              console.log("Price: ",price," Min: ",min, "Max: ",max, "Gizlensin Mi? : ",price >= min && ( max==0 || price < max ) );
-              if (price >= min && ( max==0 || price < max )) {
+             if (price >= min && ( max==0 || price < max )) {
                 a.style.display = "";
               } else {
                 a.style.display = "none";

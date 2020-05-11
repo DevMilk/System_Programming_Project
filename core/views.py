@@ -7,9 +7,10 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
+from django.db.models import Case, CharField, Value, When, F, Q
 from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm,ItemFilterForm
 from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile, CATEGORY_CHOICES
-
+import math
 import random
 import string
 import stripe
@@ -354,18 +355,64 @@ def getDefaultContext():
         Categories.append({"categoryName": a, "categorySlug":slug})
         
     context["Categories"]=Categories
+
     return context
+def get_queryset(request):
+    print("KWAARGS : ", request.GET.get("category"))
+    kwargs = request.GET
+    queryset = Item.objects.all()
+    search   = kwargs.get("title")        
+    categorySlug = kwargs.get("category")
+    print(categorySlug)
+    priceMin = kwargs.get("priceMin")
+    priceMax = kwargs.get("priceMax")
+
+
+    if(search):
+        queryset = queryset.filter(title__icontains=search)
+    if(categorySlug):
+        queryset = queryset.filter(category=categorySlug)   
+     #discount price mevcutsa ona göre filtrele, değilse price'ye gore    
+    if(priceMin):
+        queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__gte=priceMin),price__gte=priceMin)
+    if(priceMax):
+        queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__lte=priceMax),price__lte= priceMax ) 
+           
+    return queryset 
 
 class HomeView(ListView):
     def get(self,*args,**kwargs):
+        try:
+            page = int(self.request.GET.get("page"))
+        except:
+            page = 0
+            pass
+        print("page: ",page)
+        if(not(page)):
+            page=0
         model = Item
-        paginate_by = 10
+        paginate_by = 12
         template_name = "home.html"
         context = getDefaultContext()
+        context["is_paginated"]= True
+
+        items = get_queryset(self.request)
+        itemCount = len(items)
+        pageCount = math.ceil(itemCount/(paginate_by))
+        print("item Count: ", itemCount,"page: ",page, "page Count: ",pageCount)
+        context["object_list"]= items[page*paginate_by:(page+1)*paginate_by]
+
+        context["page_obj"]= {"has_previous":page!=0,
+                        "has_next":page<pageCount-1,
+                        "previous_page_number": page-1,
+                       "number":page ,
+                       "next_page_number":page+1 } 
         try:
             return render(self.request,template_name,context)
         except ObjectDoesNotExist:
             messages.warning(self.request,"No category found!")
+                      
+
 
 class CategoryFilterView(View):
     def get(self,*args,**kwargs):

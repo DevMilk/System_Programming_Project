@@ -21,23 +21,25 @@
 
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
-            {% if request.resolver_match.kwargs.slug == None %}
+            {% if request.GET.category == None or request.GET.category == "" %}
+
               <li class="nav-item active">
+
             {% else %}
               <li class="nav-item">
             {% endif %}
-              <a class="nav-link" href="/#">All
+              <a class="nav-link" href="/home">All
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             {% for category in Categories %}
-            {% if request.resolver_match.kwargs.slug == category.categorySlug %}
+            {% if request.GET.category == category.categorySlug %}
                   <li class="nav-item active">
             {% else %}
                   <li class="nav-item ">
             {% endif %}
 
-              <a class="nav-link" href="/category={{category.categorySlug}}">{{category.categoryName}}</a>
+              <a class="nav-link" href="{{request.get_path}}?category={{category.categorySlug }}">{{category.categoryName}}</a>
             </li>
             {% endfor %}
           </ul>
@@ -45,7 +47,10 @@
 
 
             <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" aria-label="Search">
+              <form action="{% url 'core:home' %}" method="GET" >
+                <input name = "category" value = "{{request.GET.category}}" type="hidden">
+                <input name="title" type="text" placeholder="search" class="form-control mr-sm-2" placeholder="Search" aria-label = "Search">
+              </form>
             </div>
         </div>
         <!-- Collapsible content -->
@@ -56,7 +61,7 @@
         <span class="navbar-brand">Filters:</span>
 
         <!-- Collapse button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -71,10 +76,20 @@
                   <li class="nav-item ">
 
 
-              <a class="nav-link waves-effect waves-light" >Minimum Price:
-                <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="number" id="PriceMin" onkeyup="FilterByPrice()" placeholder="Min" aria-label="Search">
-            </div>
+              <a class="nav-link waves-effect waves-light ml-5" >Price:
+                <div class="md-form my-2 ">
+                  
+                  <form action="{% url 'core:home' %}" method="GET" >
+                      <input name = "category" value = "{{request.GET.category}}" type="hidden">
+                      <input  name="priceMax" type="number" class="form-control mr-sm-2" placeholder="Max" 
+                      aria-label = "Search">
+                      <input name="priceMin" type="number"  class="form-control mr-sm-2" placeholder="Min" 
+                      aria-label = "Search">
+                
+                      <input type="submit" value="submit">
+                  </form>
+
+                </div>
 
           </a>
             </li>
@@ -82,10 +97,7 @@
 
                   <li class="nav-item ">
 
-
-              <a class="nav-link waves-effect waves-light" >Maximum Price: <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="number" id="PriceMax" onkeyup="FilterByPrice()" placeholder="Max" aria-label="Search">
-            </div></a>
+          
             </li>
 
             </li>
@@ -157,7 +169,7 @@
 
           {% if page_obj.has_previous %}
           <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <a class="page-link" href="/?page={{ page_obj.previous_page_number }}" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
               <span class="sr-only">Previous</span>
             </a>
@@ -165,14 +177,14 @@
           {% endif %}
 
           <li class="page-item active">
-            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}
+            <a class="page-link" href="/?page={{ page_obj.number }}">{{ page_obj.number }}
               <span class="sr-only">(current)</span>
             </a>
           </li>
 
           {% if page_obj.has_next %}
           <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <a class="page-link" href="./?page={{ page_obj.next_page_number }}" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
               <span class="sr-only">Next</span>
             </a>
