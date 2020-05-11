@@ -21,9 +21,6 @@ urlpatterns = [
     re_path('', HomeView.as_view(), name='base'),
     re_path(r'^home(?:/(?P<category>[a-zA-Z]+)/)?(?:/(?P<title>[a-zA-Z]+)/)?(?:/(?P<priceMin>\d+)/)?(?:/(?P<page>\d+)/)?/$', 
         HomeView.as_view(),name='home'),
-    # path('category=<str:category>&title=<str:title>/', HomeView.as_view(), name='home'),
-
-   # path('category=<str:slug>/', CategoryFilterView.as_view(), name='filtered'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),
