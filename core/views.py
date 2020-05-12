@@ -18,17 +18,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 #CTRL+K+1-> Hepsini Foldlamak için 
 
+
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
 
+#1 image for per product
 
-def products(request):
-    context = {
-        'items': Item.objects.all()
-    }
-    return render(request, "product.html", context)
-
-#Eğer formun en az bir alanı boşsa yanlış bir formdur. 
+#If form has empty value then it is not valid
 def is_valid_form(values):
     valid = True
     for field in values:
@@ -36,28 +32,33 @@ def is_valid_form(values):
             valid = False
     return valid
 
-
+#Checkout
 class CheckoutView(View):
     def get(self, *args, **kwargs):
         try:
+            #Get current user's order
             order = Order.objects.get(user=self.request.user, ordered=False)
+            #get checkoutform
             form = CheckoutForm()
+            #object to pass to html with rendering page
             context = {
-                'form': form,
+                'form': form, 
                 'couponform': CouponForm(),
                 'order': order,
                 'DISPLAY_COUPON_FORM': True
             }
-
+            #Get shipping address from user    
             shipping_address_qs = Address.objects.filter(
                 user=self.request.user,
                 address_type='S',
                 default=True
             )
+            #if default shipping adress exists, update context
             if shipping_address_qs.exists():
                 context.update(
                     {'default_shipping_address': shipping_address_qs[0]})
 
+           #if default billing adress exists, update context
             billing_address_qs = Address.objects.filter(
                 user=self.request.user,
                 address_type='B',
@@ -66,19 +67,22 @@ class CheckoutView(View):
             if billing_address_qs.exists():
                 context.update(
                     {'default_billing_address': billing_address_qs[0]})
-
-            #Yüklediği context adlı json formatındaki veriyi, checkout.html'de {{ degisken_ismi}} yazarak gömebilir.        
+            #return rendered page    
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
             return redirect("core:checkout")
 
+    #get page inputs , validate them and create post request        
     def post(self, *args, **kwargs):
+        #post request
         form = CheckoutForm(self.request.POST or None)
         try:
+            #Get user's order
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
 
+                #Get default shipping adress if exists    
                 use_default_shipping = form.cleaned_data.get(
                     'use_default_shipping')
                 if use_default_shipping:
@@ -95,7 +99,9 @@ class CheckoutView(View):
                     else:
                         messages.info(
                             self.request, "No default shipping address available")
+                        #direct to checkout pge
                         return redirect('core:checkout')
+                #if get default shipping adress not exists 
                 else:
                     print("User is entering a new shipping address")
                     shipping_address1 = form.cleaned_data.get(
@@ -115,8 +121,10 @@ class CheckoutView(View):
                             zip=shipping_zip,
                             address_type='S'
                         )
+                        #save shipping adddress to database
                         shipping_address.save()
 
+                        #save order to database    
                         order.shipping_address = shipping_address
                         order.save()
 
@@ -135,6 +143,7 @@ class CheckoutView(View):
                 same_billing_address = form.cleaned_data.get(
                     'same_billing_address')
 
+                #if billing adress is same
                 if same_billing_address:
                     billing_address = shipping_address
                     billing_address.pk = None
@@ -207,8 +216,8 @@ class CheckoutView(View):
             messages.warning(self.request, "You do not have an active order")
             return redirect("core:order-summary")
 
-
 class PaymentView(View):
+    #get unordered order of user's orders nd create view for payment.html
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         if order.billing_address:
@@ -236,6 +245,7 @@ class PaymentView(View):
                 self.request, "You have not added a billing address")
             return redirect("core:checkout")
 
+    #check payment form errors and stripe errors for post request         
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         form = PaymentForm(self.request.POST)
@@ -345,6 +355,7 @@ class PaymentView(View):
         messages.warning(self.request, "Invalid data received")
         return redirect("/payment/stripe/")
 
+#Return context with categories, categories slugs and items 
 def getDefaultContext():
     context = {
                 'object_list': Item.objects.all()
@@ -357,9 +368,9 @@ def getDefaultContext():
     context["Categories"]=Categories
 
     return context
-def get_queryset(request):
-    print("KWAARGS : ", request.GET.get("category"))
 
+#Get parameters from get requests  
+def get_queryset(request):
     kwargs = request.GET
     queryset = Item.objects.all()
     search   = kwargs.get("title")        
@@ -372,16 +383,19 @@ def get_queryset(request):
     except(TypeError):
         orderType = 0    
 
+    #search filter    
     if(search):
         queryset = queryset.filter(title__icontains=search)
+    #category filter
     if(categorySlug):
         queryset = queryset.filter(category=categorySlug)   
-     #discount price mevcutsa ona göre filtrele, değilse price'ye gore    
+     #price filter  
     if(priceMin):
         queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__gte=priceMin),price__gte=priceMin)
     if(priceMax):
         queryset = queryset.filter(Q(discount_price=None) | Q(discount_price__lte=priceMax),price__lte= priceMax ) 
     
+    #Sort by requet
     order = "title"
     try:
         if(orderType==1):
@@ -397,14 +411,15 @@ def get_queryset(request):
 
     return queryset.order_by(order) 
 
+#Main page
 class HomeView(ListView):
+    #Request for rendering home page at login
     def get(self,*args,**kwargs):
         try:
             page = int(self.request.GET.get("page"))
         except:
             page = 0
             pass
-        print("page: ",page)
         if(not(page)):
             page=0
         model = Item
@@ -416,35 +431,27 @@ class HomeView(ListView):
         items = get_queryset(self.request)
         itemCount = len(items)
         pageCount = math.ceil(itemCount/(paginate_by))
-        print("item Count: ", itemCount,"page: ",page, "page Count: ",pageCount)
-        context["object_list"]= items[page*paginate_by:(page+1)*paginate_by]
 
+        #Test
+        print("item Count: ", itemCount,"page: ",page, "page Count: ",pageCount)
+
+        #attributes for Pagination  
+        context["object_list"]= items[page*paginate_by:(page+1)*paginate_by]
+        
         context["page_obj"]= {"has_previous":page!=0,
                         "has_next":page<pageCount-1,
                         "previous_page_number": page-1,
                        "number":page ,
                        "next_page_number":page+1 } 
         try:
+            #Render home html with given context
             return render(self.request,template_name,context)
         except ObjectDoesNotExist:
             messages.warning(self.request,"No category found!")
                       
 
-
-class CategoryFilterView(View):
-    def get(self,*args,**kwargs):
-        model = Item
-        paginate_by = 10
-        template_name = "home.html"
-        context = getDefaultContext()
-        context["object_list"] = Item.objects.filter(category = self.kwargs.get("slug"))  
-        try:
-            return render(self.request,template_name,context)
-        except ObjectDoesNotExist:
-            messages.warning(self.request,"No category found!")
-
-
 class OrderSummaryView(LoginRequiredMixin, View):
+    #rener order summary with order objects
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -457,6 +464,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             return redirect("/")
 
 
+#/product/<slug>/
 class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
@@ -464,6 +472,7 @@ class ItemDetailView(DetailView):
 
 @login_required
 def add_to_cart(request, slug):
+    #Get item from its current etail page 
     item = get_object_or_404(Item, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
@@ -473,7 +482,7 @@ def add_to_cart(request, slug):
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
         order = order_qs[0]
-        # check if the order item is in the order
+        # add to card by adding quantity
         if order.items.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
@@ -492,6 +501,7 @@ def add_to_cart(request, slug):
         return redirect("core:order-summary")
 
 
+#remove from cart by discrementing items
 @login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
@@ -519,7 +529,7 @@ def remove_from_cart(request, slug):
         messages.info(request, "You do not have an active order")
         return redirect("core:product", slug=slug)
 
-
+#remove from cart by discrementing item
 @login_required
 def remove_single_item_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
@@ -550,7 +560,7 @@ def remove_single_item_from_cart(request, slug):
         messages.info(request, "You do not have an active order")
         return redirect("core:product", slug=slug)
 
-
+#get coupon for given code and return it
 def get_coupon(request, code):
     try:
         coupon = Coupon.objects.get(code=code)
@@ -561,6 +571,7 @@ def get_coupon(request, code):
 
 
 class AddCouponView(View):
+    #add coupon to order by psot request
     def post(self, *args, **kwargs):
         form = CouponForm(self.request.POST or None)
         if form.is_valid():

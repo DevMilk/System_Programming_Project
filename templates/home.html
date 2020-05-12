@@ -19,7 +19,7 @@
         <!-- Collapsible content -->
         <div class="collapse navbar-collapse" id="basicExampleNav">
 
-          <!-- Links -->
+          <!-- Set active navbar element by checking get parameters on url -->
           <ul class="navbar-nav mr-auto">
             {% if request.GET.category == None or request.GET.category == "" %}
 
@@ -74,7 +74,7 @@
           <ul class="navbar-nav mr-auto h5">
 
 
-                <!-- Price Filter -->
+       <!-- Price Filter -->
                   <li class="nav-item mt-3">
 
 
@@ -189,7 +189,7 @@
 {% include "searchscripts.html" %}
 
 
-      <!--Pagination-->
+      <!--Pagination, pass page parameter to url by get request-->
 
       {% if is_paginated %}
       <nav class="d-flex justify-content-center wow fadeIn">

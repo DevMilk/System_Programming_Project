@@ -1,0 +1,43 @@
+
+<script type="text/javascript">
+    function bill(info) {
+    	//convert javascript object to json 
+        var json = JSON.stringify(info);
+        //Test at console
+        console.log("JSON: ", json);
+
+        //Convert json to blob
+        json = [json];
+        var blob1 = new Blob(json, { type: "text/plain;charset=utf-8" });
+ 
+        //Check the Browser and download json.
+        var isIE = false || !!document.documentMode;
+        if (isIE) {
+            window.navigator.msSaveBlob(blob1, "Order_JSON.json");
+        } else {
+            var url = window.URL || window.webkitURL;
+            link = url.createObjectURL(blob1);
+            var a = document.createElement("a");
+            a.download = "Order_JSON.json";
+            a.href = link;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    }
+    
+    //initialize javascript object to get data from context in html
+    //it will be converted json after pressing "Bill" button  
+    var data = {"title": [], 
+    			"quantities": [],
+    			"finalPrice": [],
+    			"TotalPrice": '{{order.get_total}}',
+                "orderItemCount": '{{ order.items.count }}', 
+                "couponCode": '{{ order.coupon.code }}', 
+                "Username": '{{order.user}}',
+            	"shipping_address": '{{order.shipping_address}}',
+            	"billing_address": '{{order.billing_address}}',
+            	"start_date": '{{order.start_date}}',
+            	"ordered_Date": '{{order.ordered_Date}}',
+            };
+</script>
