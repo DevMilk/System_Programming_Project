@@ -14,7 +14,8 @@ import math
 import random
 import string
 import stripe
-import simplejson as JSON
+import pandas as pd
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 #CTRL+K+1-> Hepsini Foldlamak için 
@@ -611,3 +612,20 @@ class RequestRefundView(View):
             except ObjectDoesNotExist:
                 messages.info(self.request, "This order does not exist.")
                 return redirect("core:request-refund")
+
+
+
+class SalesMonitorView(View):
+    def get(self,*args,**kwargs):
+        data = {"total": [], "date": []}
+        for order in Order.objects.all():
+            data["total"].append(order.get_total())
+            data["date"].append(order.start_date.strftime("%b %d %Y"))
+        df = pd.DataFrame(data=data)
+        df = df.groupby(df['date'])['total'].sum().sort_values()
+        context = {
+            'values' : {'x': df.index.values.astype("object"),'y': df.values}
+
+        }
+        print(context)
+        return render(self.request, "SalesMonitor.html", context)

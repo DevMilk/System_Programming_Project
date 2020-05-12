@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div id="chartContainer" style="height: 370px; width: 1282px;"></div>
+<div id="editor"></div>
+<button id="aspdf"  onclick = "generatePDF()" class="btn-info BillButton mt-5">Download Graph as PDF</button>
+
+<script type="text/javascript">
+    var x = []; 
+    var y= []
+</script>
+
+
+
+<script type="text/javascript">
+
+        window.onload = function(){
+                var x = []; 
+                var y= []
+            "{% for x in values.x %}"
+                x.push('{{x}}');
+            "{%endfor%}"
+
+            "{% for y in values.y %}"
+                y.push(parseFloat('{{y}}'));
+            "{%endfor%}"
+
+
+            function getMonthFromString(mon){
+
+               var d = Date.parse(mon + "1, 2012");
+               if(!isNaN(d)){
+                  return new Date(d).getMonth() + 1;
+               }
+               return -1;
+             }
+
+            //Better to construct options first and then pass it as a parameter
+            chartData = [];
+            for(var i=0;i<y.length;i++){
+                sp = x[i].split(" ");
+                console.log(sp);
+                chartData.push({x:new Date(sp[2], getMonthFromString(sp[0])-1, sp[1]), y: y[i]});
+            }
+            console.log(chartData);
+            var options = {
+                title: {
+                    text: "Sales"
+                },
+                animationEnabled: true,
+                exportEnabled: true,
+                data: [
+                {
+                    type: "spline", //change it to line, area, column, pie, etc
+                    markerType: "square",
+                    dataPoints: chartData
+                }
+                ]
+            };
+            $("#chartContainer").CanvasJSChart(options);
+
+}
+             canvas = $(".canvasjs-chart-canvas")[1];
+             canvas.style.width = "300px";
+function generatePDF() {
+        // Choose the element that our invoice is rendered in.
+             canvas = $(".canvasjs-chart-canvas")[1];
+             canvas.style.width = "300px";
+        const element = document.getElementById("chartContainer");
+        // Choose the element and save the PDF for our user.
+        html2pdf()
+          .from(element)
+          .save();
+      }
+ function aspdf() {
+      canvas = $(".canvasjs-chart-canvas")[0]
+      var imgData = canvas.toDataURL("image/jpeg", 2);
+      var pdf = new jsPDF();
+      console.log(canvas.height);
+      scale = 1/5  ;
+      pdf.addImage(imgData, 'JPEG',0,0, canvas.width*scale,canvas.height*scale );
+      pdf.save("download.pdf");
+};
+</script>
+
+{% endblock content %}
