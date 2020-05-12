@@ -59,7 +59,7 @@
         </div>
         <!-- Collapsible content -->
       </nav>
-      <nav id="filter" class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-1 mb-5">
+      <nav id="filter" class="navbar navbar-expand-lg navbar-dark mt-1 mb-5 mdb-color ">
 
         <!-- Navbar brand -->
         <span class="navbar-brand">Filters:</span>
@@ -74,14 +74,14 @@
         <div class="collapse navbar-collapse" id="filterNav">
 
           <!-- Links -->
- <ul class="navbar-nav mr-auto h5">
+ <ul class="navbar-nav mr-auto h5 ">
 
 
                 <!-- Price Filter -->
                   <li class="nav-item mt-3">
 
 
-              <a class="nav-link waves-effect waves-light ml-5 badge" >Price:
+              <a class="nav-link waves-effect waves-light ml-5 badge bg-dark" >Price:
                 <div class="md-form my-2 ">
                   
                   <form action="{% url 'core:home' %}" method="GET" >
@@ -108,7 +108,7 @@
 
                   <li class="nav-item mt-3">
 
-                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5">Dynamic Filtering
+                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5 bg-dark ">Dynamic Filtering
 
                         {% include "sortMenu.html" %}
                       </a>
@@ -117,7 +117,7 @@
 
                 <!-- Dynamic Checkbox  -->
 
-                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5">Sort
+                      <a class = "nav-link waves-effect waves-light ml-5 badge mb-5 bg-dark">Sort
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="Dynamic custom-control-input" id="defaultUnchecked">

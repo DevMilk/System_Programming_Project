@@ -1,21 +1,23 @@
+<div class="form-group-vertical">
 <form method="GET">
   {% include "all.html" %}
   <input type="hidden" name="orderType" value="1">
-  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light mt-1 btn-info" value="İsme göre azalan">
+  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light mt-4 btn-danger" value="Title Descending">
 </form>
 <form method="GET">
   {% include "all.html" %}
   <input type="hidden" name="orderType" value="0">
-  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light mt-1 btn-info" value="İsme göre artan">
-</form>
-<form method="GET">
-  {% include "all.html" %}
-  <input type="hidden" name="orderType" value="3">
-  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light mt-1 btn-info" value="En düşük fiyat">
+  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light  btn-info" value="Title Ascending">
 </form>
 <form method="GET">
   {% include "all.html" %}
   <input type="hidden" name="orderType" value="2">
-  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light mt-1 btn-info" value="En yüksek fiyat">
+  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light  btn-danger" value="Price Descending">
+</form>
+<form method="GET">
+  {% include "all.html" %}
+  <input type="hidden" name="orderType" value="3">
+  <input type="submit" class="btn nav-link btn-sm waves-effect waves-light btn-info" value="Price Ascending">
 </form>
 
+</div>
