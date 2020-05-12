@@ -2,4 +2,3 @@
 __pycache__/
 static_root
 env
-db.sqlite3
